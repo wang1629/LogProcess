@@ -1,0 +1,10 @@
+This is a fake server.
+
+Flow:
+1. client send 'm,n;' to master
+2. master forward this request to sumWorker
+3. sumWorker send m^2+n^2 back to master
+4. master send m^2+n^2 to sqrtWorker
+5. sqrtWorker send sqrt(m^2+n^2) back to master
+6. master will send sqrt(m^2+n^2) back to client
+
