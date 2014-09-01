@@ -1,12 +1,13 @@
 
-public abstract class GroupBy<T, I> {
+
+public interface GroupBy<E, F> {  /* E for Entry, F for Field */
 
     private Set<int> intSet = mew HashSet<int>();
-    private Set<I> iSet = mew HashSet<I>();
+    private Set<F> iSet = mew HashSet<F>();
 
-    public abstract I groupBy(T t);
-    public abstract int toIndex(I i);
+    public abstract F groupBy(E e);
+    public abstract int toIndex(F i);
 
-    public applyGroupBy(T t);
+    public applyGroupBy(E e);
 
 }

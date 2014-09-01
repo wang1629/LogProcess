@@ -17,7 +17,7 @@ public class FilterChain<T> {
         return filterChain.remove(filter);
     }
 
-    public boolean applyFilters(T t) {
+    public boolean apply(T t) {
         synchronized(this) {
             Iterator<T> iter = filterChain.iterator();
             while(iter.hasNext()) {
