@@ -29,6 +29,19 @@ public class Cache<T> {
             return null;
         }
     }
+
+    public T hasMatch(T t, MatchFunction<T> matchFunc) {
+        synchronized(this) {
+            for(int i=0; i<list.size(); i++) {
+                T e = list.get(i);
+                if(matchFunc.match(e,t)) {
+                    list.remove(i);
+                    return e;
+                }
+            }
+            return null;
+        }
+    }
     
 }
 

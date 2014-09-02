@@ -63,25 +63,7 @@ public class EntryProcessor {
         return step;
     }
 
-
     public void receiveNewEntry(Entry entry) {
-        
-        Entry matchEntry = cache.hasMatch(entry, this.matchFunction);
-        
-        if(matchEntry == null) {
-            cache.addToCache(entry);
-            return;
-        }
-
-        FlowStep step = generateStepResult(entry, matchEntry);
-        System.out.println("generate step result " + step);
-
-    }
-
-
-    public void receiveNewEntryStack(Entry entry) {
-
-        System.out.println("receive entry: " + entry);
 
         if(entry.getTraceFlag() == Entry.SINGLE) {
             // TODO
@@ -111,7 +93,7 @@ public class EntryProcessor {
 
 //    sortAllStep(); /* by timestamp   */
 //    buildHierarchy(); /* stream-style, increamental update(?) ??? challenge = out-of-order received */
-
+    
 }
 
 

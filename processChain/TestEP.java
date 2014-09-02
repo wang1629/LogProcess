@@ -28,6 +28,17 @@ public class TestEP {
         e[5] = e5; e[6] = e6; e[7] = e7; e[8] = e8;
     }
 
+    public static void buildEntryArrayRandom() {
+        e[1] = e4;
+        e[2] = e7; 
+        e[3] = e5; 
+        e[4] = e1;
+        e[5] = e3;
+        e[6] = e8;
+        e[7] = e2;
+        e[8] = e6;
+    }
+
     public static void testMatch(int i, int j) {
         MyMatch matchFunc = new MyMatch();
         boolean matchRes = matchFunc.match(e[i], e[j]);
@@ -43,8 +54,28 @@ public class TestEP {
         testMatch(7,8);
     }
 
+
+    public static void testEP() {
+        buildEntryArray();
+        EntryProcessor ep = new EntryProcessor();
+        MyMatch myMatch = new MyMatch();
+        ep.setMatchFunction(myMatch);
+        for(int i=1; i<=8; i++) {
+            ep.receiveNewEntryStack(e[i]);
+        }
+    }
+
+    public static void testEPRandom() {
+        buildEntryArrayRandom();
+        EntryProcessor ep = new EntryProcessor();
+        MyMatch myMatch = new MyMatch();
+        ep.setMatchFunction(myMatch);
+        for(int i=1; i<=8; i++) {
+            ep.receiveNewEntry(e[i]);
+        }
+    }
+
     public static void main(String args[]) {
-
-
+        testEPRandom();
     }
 }
