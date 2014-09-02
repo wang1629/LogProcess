@@ -1,4 +1,4 @@
 all:
-	rm class/*.class
-	javac -d class TestEP.java
-	cd class; java TestEP
+	javac -d class TestProcessChain.java -Xlint
+run:
+	cd class; java TestProcessChain

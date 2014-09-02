@@ -4,16 +4,18 @@ public class Entry {
     private long timestamp;
     private String counter;
     private int traceFlag;
+    private int requestID;
 
 
     public static int START = 1;
     public static int END = 2;
     public static int SINGLE = 3;
 
-    public Entry(String counter, long timestamp, int traceFlag) {
+    public Entry(String counter, long timestamp, int traceFlag, int requestID) {
         this.timestamp = timestamp;
         this.counter = counter;
         this.traceFlag = traceFlag;
+        this.requestID = requestID;
     }
 
     public void setTimestamp(long timestamp) {
@@ -40,8 +42,16 @@ public class Entry {
         return traceFlag;
     }
 
+    public void setRequestId(int requestID) {
+        this.requestID = requestID;
+    }
+
+    public int getRequestID() {
+        return requestID;
+    }
+
     public String toString() {
-        return "[" + counter + ":" + timestamp + ":" + traceFlag + "]";
+        return "[" + counter + ":" + timestamp + ":" + traceFlag + ":" + requestID + "]";
     }
 
 }

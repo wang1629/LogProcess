@@ -63,18 +63,21 @@ public class EntryProcessor {
         return step;
     }
 
+    static int resCount = 0;
 
     public void receiveNewEntry(Entry entry) {
         
+        System.out.println("Recv new entry " + entry);
         Entry matchEntry = cache.hasMatch(entry, this.matchFunction);
         
+        System.out.println("matchEntry " + matchEntry);
         if(matchEntry == null) {
             cache.addToCache(entry);
             return;
         }
 
         FlowStep step = generateStepResult(entry, matchEntry);
-        System.out.println("generate step result " + step);
+        System.out.println("************************************(" + (++resCount) + ")***** Generate Step Result " + step);
 
     }
 

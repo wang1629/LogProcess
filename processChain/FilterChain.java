@@ -1,13 +1,9 @@
 
-
-public interface Filter<T> {
-    /* return true if @t should be filtered(discard) */
-    public boolean filter(T t);
-}
+import java.util.LinkedList;
 
 public class FilterChain<T> {
 
-    private List< Filter<T> > filterChain = new LinkedList< Filter<T> >();
+    private LinkedList< Filter<T> > filterChain = new LinkedList< Filter<T> >();
 
     public void addNewFilter(Filter<T> filter) {
         filterChain.add(filter);
@@ -19,9 +15,9 @@ public class FilterChain<T> {
 
     public boolean apply(T t) {
         synchronized(this) {
-            Iterator<T> iter = filterChain.iterator();
-            while(iter.hasNext()) {
-                if(iter.filter(t)) {
+            for(int i=0; i<filterChain.size(); i++) {
+                Filter<T> filterElement = filterChain.get(i);
+                if(filterElement.filter(t)) {
                     return true;
                 }
             }

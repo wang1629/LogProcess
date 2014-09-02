@@ -1,15 +1,15 @@
 
-import java.util.concurrency.*;
+import java.util.concurrent.*;
 
 public class LogStream<T> {
 
-    private BlockingQueue<T> queue = new ArrayBlockingQueue<T>(4);
+    private BlockingQueue<T> queue = new ArrayBlockingQueue<T>(1024);
 
     public void receiveNew(T t) {
         try {
             queue.put(t);
         } catch (Exception ex) {
-            System.out.println("Exception on receiveNew. " + e.getMessage());
+            System.out.println("Exception on receiveNew. " + ex.getMessage());
         }
     }
 
@@ -17,8 +17,9 @@ public class LogStream<T> {
         try {
             return queue.take();
         } catch (Exception ex) {
-            System.out.println("Exception on receiveNew. " + e.getMessage());
+            System.out.println("Exception on receiveNew. " + ex.getMessage());
         }
+        return null; // never here
     }
 
 }
