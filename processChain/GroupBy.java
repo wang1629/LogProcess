@@ -8,6 +8,6 @@ public interface GroupBy<E, F> {  /* E for Entry, F for Field */
     public abstract F groupBy(E e);
     public abstract int toIndex(F i);
 
-    public applyGroupBy(E e);
+    public void applyGroupBy(E e);
 
 }
