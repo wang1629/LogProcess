@@ -1,7 +1,7 @@
 
 var net = require('net');
 
-var pms = require('./logModule/perfLogModule');
+var pms = require('../logModule/perfLogModule');
 
 pms.setOutput('res/sqrtWorker.log');
 

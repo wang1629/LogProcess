@@ -2,7 +2,7 @@
 var net = require('net');
 var events = require('events');
 
-var pms = require('./logModule/perfLogModule');
+var pms = require('../logModule/perfLogModule');
 
 pms.setOutput('res/master.log');
 
