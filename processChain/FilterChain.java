@@ -6,11 +6,15 @@ public class FilterChain<T> {
     private LinkedList< Filter<T> > filterChain = new LinkedList< Filter<T> >();
 
     public void addNewFilter(Filter<T> filter) {
-        filterChain.add(filter);
+        synchronized(this) {
+            filterChain.add(filter);
+        }
     }
     
     public boolean removeFilter(Filter<T> filter) {
-        return filterChain.remove(filter);
+        synchronized(this) {
+            return filterChain.remove(filter);
+        }
     }
 
     public boolean apply(T t) {
