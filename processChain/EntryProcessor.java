@@ -39,6 +39,8 @@ public class EntryProcessor {
     private Stack<Entry> stack = new Stack<Entry>();
     private MatchFunction<Entry> matchFunction;
 
+    public int id;
+
     public void setMatchFunction(MatchFunction<Entry> matchFunction) {
         this.matchFunction = matchFunction;
     }
@@ -67,10 +69,10 @@ public class EntryProcessor {
 
     public void receiveNewEntry(Entry entry) {
         
-        System.out.println("Recv new entry " + entry);
+        //System.out.println("Recv new entry " + entry);
         Entry matchEntry = cache.hasMatch(entry, this.matchFunction);
         
-        System.out.println("matchEntry " + matchEntry);
+        //System.out.println("matchEntry " + matchEntry);
         if(matchEntry == null) {
             cache.addToCache(entry);
             return;

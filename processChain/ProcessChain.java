@@ -18,10 +18,6 @@ class ProcessChain {
         filterChain.addNewFilter(filter);
     }
 
-    public void setGroupBy(GroupBy<Entry,?> groupBy) { //TODO 
-        epManager.setGroupBy(groupBy);
-    }
-
     public void setMatchFunction(MatchFunction<Entry> myMatch) {
         matchFunction = myMatch;
     }
@@ -35,20 +31,46 @@ class ProcessChain {
         return epManager.dispatch(entry);
     }
 
+    /* check if ProcessChain can start process. 
+     * Make sure every member is set well.  */
+    public boolean check() {
+        if(logStream == null) {
+            System.out.println("Check failed. You should set logStream before start process");
+            return false;
+        }
+        if(matchFunction == null) {
+            System.out.println("Check failed. You should set matchFunction before start process");
+            return false;
+        }
+        if(matchFunction == null) {
+            System.out.println("Check failed. You should set matchFunction before start process");
+            return false;
+        }
+        if(epManager == null) {
+            System.out.println("Check failed. You should set epMananger before start process");
+            return false;
+        }
+        return epManager.check();
+    }
+
     public void process() {
 
-        while(true) {
+        if(!check())
+            return;
 
-            System.out.println("logStream.next()");
+        while(true) {
+            //System.out.println("logStream.next()");
             Entry entry = logStream.next();
             System.out.println("logStream.next() return " + entry);
             boolean discard = filterChain.apply(entry);
-            System.out.println("after filterChain " + discard);
+            //System.out.println("after filterChain " + discard);
             if(discard) {
                 continue;
             }
 
             EntryProcessor ep = dispatch(entry);
+
+            System.out.println("dispatch return ep[" + ep.id + "] for entry" + entry);
 
             ep.setMatchFunction(matchFunction);
 

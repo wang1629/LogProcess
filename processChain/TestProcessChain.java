@@ -12,9 +12,13 @@ public class TestProcessChain {
         pc.setLogStream(logStream);
         pc.init();
         pc.setMatchFunction(new MyMatch());
-        pc.addFilter(new MyFilter());
 
-        pc.setGroupBy(null);
+        //pc.addFilter(new MyFilter());
+
+        EntryProcessorManager<Integer> epm = new EntryProcessorManager<Integer>();
+        epm.setGroupBy(new MyGroupBy());
+
+        pc.setEntryProcessorMananger(epm);
 
         pc.process(); // never return.
 
@@ -22,6 +26,12 @@ public class TestProcessChain {
 }
 
 
+
+class MyGroupBy implements GroupBy<Entry, Integer> {
+    public Integer applyGroupBy(Entry entry) {
+        return entry.getRequestID();
+    }
+}
 
 class MyMatch implements MatchFunction<Entry> {
     public boolean match(Entry e1, Entry e2) {
@@ -38,12 +48,6 @@ class MyMatch implements MatchFunction<Entry> {
 class MyFilter implements Filter<Entry> {
     public boolean filter(Entry t) {
         return t.getRequestID() == 1;
-    }
-}
-
-class MyGroupBy implements GroupBy<Entry, Integer> {
-    public Integer applyGroupBy(Entry entry) {
-        return entry.getRequestID();
     }
 }
 
