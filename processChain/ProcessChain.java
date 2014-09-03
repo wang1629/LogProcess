@@ -1,11 +1,10 @@
 
-import java.util.LinkedList;
-
 class ProcessChain {
 
     private LogStream<Entry>    logStream;
     private FilterChain<Entry>  filterChain;
-    private EntryProcessorManager<?>  epManager;
+    private MatchFunction<Entry> matchFunction;
+    private EntryProcessorManager<?>  epManager;  //TODO
 
     public void setLogStream(LogStream<Entry> logStream) {
         this.logStream = logStream;
@@ -15,22 +14,21 @@ class ProcessChain {
         this.epManager = epManager;
     }
 
-    public void addFilter(Filter<Entry> filter) {
+    public void addFilter(Filter<Entry> filter) { 
         filterChain.addNewFilter(filter);
     }
 
-    public void setGroupBy(GroupBy<Entry,?> groupBy) {
+    public void setGroupBy(GroupBy<Entry,?> groupBy) { //TODO 
         epManager.setGroupBy(groupBy);
     }
 
     public void setMatchFunction(MatchFunction<Entry> myMatch) {
-        epManager.setMatchFunction(myMatch);
+        matchFunction = myMatch;
     }
 
     public void init() {
         //logStream = new LogStream<Entry>();
         filterChain = new FilterChain<Entry>();
-        entryProcessorList = new LinkedList<EntryProcessor>();
     }
 
     public EntryProcessor dispatch(Entry entry) {
@@ -51,6 +49,8 @@ class ProcessChain {
             }
 
             EntryProcessor ep = dispatch(entry);
+
+            ep.setMatchFunction(matchFunction);
 
             ep.receiveNewEntry(entry);
             //Result result = ep.generateResult();

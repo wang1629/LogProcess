@@ -3,7 +3,6 @@ public class TestProcessChain {
 
     static LogStream<Entry> logStream = new LogStream<Entry>();;
 
-
     public static void main(String args[]) {
 
         FeedThread feeder = new FeedThread(logStream);
@@ -15,6 +14,8 @@ public class TestProcessChain {
         pc.setMatchFunction(new MyMatch());
         pc.addFilter(new MyFilter());
 
+        pc.setGroupBy(null);
+
         pc.process(); // never return.
 
     }
@@ -22,10 +23,29 @@ public class TestProcessChain {
 
 
 
+class MyMatch implements MatchFunction<Entry> {
+    public boolean match(Entry e1, Entry e2) {
+        if(!(e1.getCounter().equals(e2.getCounter())))
+            return false;
+        if(e1.getRequestID() != e2.getRequestID()) 
+            return false;
+        if(e1.getTraceFlag() + e2.getTraceFlag() == 3) /* bad. magic number */
+            return true;
+        return false;
+    }
+}
 
+class MyFilter implements Filter<Entry> {
+    public boolean filter(Entry t) {
+        return t.getRequestID() == 1;
+    }
+}
 
-
-
+class MyGroupBy implements GroupBy<Entry, Integer> {
+    public Integer applyGroupBy(Entry entry) {
+        return entry.getRequestID();
+    }
+}
 
 class FeedThread extends Thread {
 

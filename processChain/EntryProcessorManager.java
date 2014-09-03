@@ -7,7 +7,7 @@ public class EntryProcessorManager<F> {
     private GroupBy<Entry, F>   groupBy;
     private Map<F, EntryProcessor>  epMap;
 
-    public setGroupBy(GroupBy<Entry, F> groupBy) {
+    public void setGroupBy(GroupBy<Entry, F> groupBy) {
         this.groupBy = groupBy;
     }
 
