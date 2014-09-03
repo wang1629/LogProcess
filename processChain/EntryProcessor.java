@@ -1,7 +1,5 @@
 
-
 import java.util.LinkedList;
-import java.util.Stack;
 
 /*
  * EntryProcessor is used to let user write his own entry process logic.
@@ -34,12 +32,11 @@ import java.util.Stack;
 /* EntryProcessor is entry-driven style flow */
 public class EntryProcessor {
 
-    private LinkedList<HierarchyStep> topHierarchyStep;
+    private LinkedList<HierarchyStepResult> topHierarchyStepResult;
     private Cache<Entry> cache = new Cache<Entry>();
-    private Stack<Entry> stack = new Stack<Entry>();
     private MatchFunction<Entry> matchFunction;
 
-    public int id;
+    public int id; // for test
 
     public void setMatchFunction(MatchFunction<Entry> matchFunction) {
         this.matchFunction = matchFunction;
@@ -49,8 +46,8 @@ public class EntryProcessor {
         return matchFunction.match(e1, e2);
     }
 
-    public FlowStep generateStepResult(Entry e1, Entry e2) {
-        FlowStep step = new FlowStep();
+    public StepResult generateStepResult(Entry e1, Entry e2) {
+        StepResult step = new StepResult();
         Entry start, end;
         if(e1.getTraceFlag() == Entry.START) {
             start = e1;
@@ -65,9 +62,9 @@ public class EntryProcessor {
         return step;
     }
 
-    static int resCount = 0;
+    static int resCount = 0; // for test
 
-    public void receiveNewEntry(Entry entry) {
+    public StepResult receiveNewEntry(Entry entry) {
         
         //System.out.println("Recv new entry " + entry);
         Entry matchEntry = cache.hasMatch(entry, this.matchFunction);
@@ -75,94 +72,14 @@ public class EntryProcessor {
         //System.out.println("matchEntry " + matchEntry);
         if(matchEntry == null) {
             cache.addToCache(entry);
-            return;
+            return null;
         }
 
-        FlowStep step = generateStepResult(entry, matchEntry);
-        System.out.println("************************************(" + (++resCount) + ")***** Generate Step Result " + step);
-
+        StepResult step = generateStepResult(entry, matchEntry);
+        System.out.println("******************************************************(" + (++resCount) + ")***** Generate Step Result " + step);
+        return step;
     }
-
-
-    public void receiveNewEntryStack(Entry entry) {
-
-        System.out.println("receive entry: " + entry);
-
-        if(entry.getTraceFlag() == Entry.SINGLE) {
-            // TODO
-            //generateSingleResult(entry);
-            //return;
-            System.out.println("Single Entry");
-        }
-       
-        if(stack.empty()) {
-            stack.push(entry);
-            return;
-        }
-
-        Entry stackTop = stack.peek();
-
-        // match START & END
-        if(applyMatch(stackTop,entry)) {
-            stack.pop();
-            FlowStep step = generateStepResult(entry, stackTop);
-//            ResultQueue.addResult(step);
-            System.out.println("New result: " + step);
-        } else {
-            stack.push(entry);
-        }
-
-    }
-
-//    sortAllStep(); /* by timestamp   */
-//    buildHierarchy(); /* stream-style, increamental update(?) ??? challenge = out-of-order received */
 
 }
 
 
-class FlowStep {
-    
-    public long startTime;
-    public long endTime;
-    public String counter;
-
-    public boolean equals(FlowStep step) {
-        return  counter.equals(step.counter);
-    }
-    public long interval() {
-        return endTime - startTime;
-    }
-
-    public String toString() {
-        return counter + "(" + startTime + "~" + endTime + ")";
-    }
-}
-
-/* HierarchyStep is used to model the stack-style call path */
-/* Currently, we only consider some simple scenario :( */
-/* not consider the cross-step (maybe can be treated as sibling step)
- *   |  foo.START
- *   |  bar.START
- *   |  foo.END
- *   |  bar.END
- */
-/*not consider:
- *   | foo.START($)
- *   | -- |
- *        | bar.START
- *        | bar.END
- *        | foo.END($)
- *   | -- |
- *   |
- *
- * Notice: start and end of @foo is not in the same call level.
- * */
-class HierarchyStep extends FlowStep {
-
-    private LinkedList<HierarchyStep> hierarchyStepList = new LinkedList<HierarchyStep>();
-
-    public void addSubStep(HierarchyStep subStep) {
-        hierarchyStepList.add(subStep);
-    }
-
-}

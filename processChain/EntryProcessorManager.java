@@ -6,8 +6,9 @@ public class EntryProcessorManager<F> {
     
     private GroupBy<Entry, F>   groupBy;
     private Map<F, EntryProcessor>  epMap = new HashMap<F, EntryProcessor>();
+    private Map<Integer, F>  idMap = new HashMap<Integer, F>(); 
 
-    private static int id = 0;
+    private static int sequenceNuber = 1;
 
     public void setGroupBy(GroupBy<Entry, F> groupBy) {
         this.groupBy = groupBy;
@@ -29,8 +30,8 @@ public class EntryProcessorManager<F> {
             }
             EntryProcessor ep = new EntryProcessor();
             epMap.put(field, ep);
-            ep.id = id;
-            id++;
+            ep.id = sequenceNuber++;
+            idMap.put(ep.id, field);
             return ep;
         }
     }

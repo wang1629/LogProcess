@@ -4,14 +4,14 @@ public class Entry {
     private long timestamp;
     private String counter;
     private int traceFlag;
-    private int requestID;
+    private String requestID;
 
 
     public static int START = 1;
     public static int END = 2;
     public static int SINGLE = 3;
 
-    public Entry(String counter, long timestamp, int traceFlag, int requestID) {
+    public Entry(String counter, long timestamp, int traceFlag, String requestID) {
         this.timestamp = timestamp;
         this.counter = counter;
         this.traceFlag = traceFlag;
@@ -42,11 +42,11 @@ public class Entry {
         return traceFlag;
     }
 
-    public void setRequestId(int requestID) {
+    public void setRequestId(String requestID) {
         this.requestID = requestID;
     }
 
-    public int getRequestID() {
+    public String getRequestID() {
         return requestID;
     }
 

@@ -15,7 +15,7 @@ public class TestProcessChain {
 
         //pc.addFilter(new MyFilter());
 
-        EntryProcessorManager<Integer> epm = new EntryProcessorManager<Integer>();
+        EntryProcessorManager<String> epm = new EntryProcessorManager<String>();
         epm.setGroupBy(new MyGroupBy());
 
         pc.setEntryProcessorMananger(epm);
@@ -27,8 +27,8 @@ public class TestProcessChain {
 
 
 
-class MyGroupBy implements GroupBy<Entry, Integer> {
-    public Integer applyGroupBy(Entry entry) {
+class MyGroupBy implements GroupBy<Entry, String> {
+    public String applyGroupBy(Entry entry) {
         return entry.getRequestID();
     }
 }
@@ -47,29 +47,28 @@ class MyMatch implements MatchFunction<Entry> {
 
 class MyFilter implements Filter<Entry> {
     public boolean filter(Entry t) {
-        return t.getRequestID() == 1;
+        return t.getRequestID().equals("1");
     }
 }
 
 class FeedThread extends Thread {
 
-    Entry e1  = new Entry("c1", 1001, Entry.START, 1);
-    Entry e2  = new Entry("c2", 1002, Entry.START, 1);
-    Entry e3  = new Entry("c2", 1003, Entry.END,   1);
-    Entry e4  = new Entry("c1", 1004, Entry.END,   1);
-    Entry e5  = new Entry("c3", 1005, Entry.START, 1);
-    Entry e6  = new Entry("c3", 1006, Entry.END,   1);
-    Entry e7  = new Entry("c4", 1007, Entry.START, 1);
-    Entry e8  = new Entry("c4", 1008, Entry.END,   1);
-
-    Entry e9  = new Entry("c1", 2001, Entry.START, 2);
-    Entry e10 = new Entry("c2", 2002, Entry.START, 2);
-    Entry e11 = new Entry("c2", 2003, Entry.END,   2);
-    Entry e12 = new Entry("c1", 2004, Entry.END,   2);
-    Entry e13 = new Entry("c3", 2005, Entry.START, 2);
-    Entry e14 = new Entry("c3", 2006, Entry.END,   2);
-    Entry e15 = new Entry("c4", 2007, Entry.START, 2);
-    Entry e16 = new Entry("c4", 2008, Entry.END,   2);
+    Entry e1  = new Entry("c1", 1001, Entry.START, "1");
+    Entry e2  = new Entry("c2", 1002, Entry.START, "1");
+    Entry e3  = new Entry("c2", 1003, Entry.END,   "1");
+    Entry e4  = new Entry("c1", 1004, Entry.END,   "1");
+    Entry e5  = new Entry("c3", 1005, Entry.START, "1");
+    Entry e6  = new Entry("c3", 1006, Entry.END,   "1");
+    Entry e7  = new Entry("c4", 1007, Entry.START, "1");
+    Entry e8  = new Entry("c4", 1008, Entry.END,   "1");
+    Entry e9  = new Entry("c1", 2001, Entry.START, "2");
+    Entry e10 = new Entry("c2", 2002, Entry.START, "2");
+    Entry e11 = new Entry("c2", 2003, Entry.END,   "2");
+    Entry e12 = new Entry("c1", 2004, Entry.END,   "2");
+    Entry e13 = new Entry("c3", 2005, Entry.START, "2");
+    Entry e14 = new Entry("c3", 2006, Entry.END,   "2");
+    Entry e15 = new Entry("c4", 2007, Entry.START, "2");
+    Entry e16 = new Entry("c4", 2008, Entry.END,   "2");
 
     Entry e[] = new Entry[17];
 
@@ -99,14 +98,14 @@ class FeedThread extends Thread {
     }
 
     public void run() {
-        System.out.println("feed thread start");
+        System.out.println("Feed thread start");
         buildEntryArrayRandom();
         for(int i=1; i<=16; i++) {
             try {
                 Thread.sleep(1000);
             } catch (Exception e) {}
 
-            System.out.println("------Feed " + e[i]);
+            System.out.println("**Feed " + e[i]);
             logStream.receiveNew(e[i]);
         }
     }
