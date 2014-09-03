@@ -3,17 +3,28 @@ import java.util.LinkedList;
 
 class ProcessChain {
 
-    private LogStream<Entry> logStream;
-    private FilterChain<Entry> filterChain;
-    private GroupBy<Entry,Integer> groupBy;
-    private LinkedList<EntryProcessor> entryProcessorList;
-
-
-    // for test. should be a set of ep for each groupby and also need a mgr.
-    EntryProcessor ep = new EntryProcessor();
+    private LogStream<Entry>    logStream;
+    private FilterChain<Entry>  filterChain;
+    private EntryProcessorManager<?>  epManager;
 
     public void setLogStream(LogStream<Entry> logStream) {
         this.logStream = logStream;
+    }
+
+    public void setEntryProcessorMananger(EntryProcessorManager<?> epManager) {
+        this.epManager = epManager;
+    }
+
+    public void addFilter(Filter<Entry> filter) {
+        filterChain.addNewFilter(filter);
+    }
+
+    public void setGroupBy(GroupBy<Entry,?> groupBy) {
+        epManager.setGroupBy(groupBy);
+    }
+
+    public void setMatchFunction(MatchFunction<Entry> myMatch) {
+        epManager.setMatchFunction(myMatch);
     }
 
     public void init() {
@@ -22,24 +33,8 @@ class ProcessChain {
         entryProcessorList = new LinkedList<EntryProcessor>();
     }
 
-    public void addFilter(Filter<Entry> filter) {
-        filterChain.addNewFilter(filter);
-    }
-
-    public void setGroupBy(GroupBy<Entry,Integer> groupBy) {
-        this.groupBy = groupBy;
-    }
-    public void setMatchFunction(MatchFunction<Entry> myMatch) {
-        ep.setMatchFunction(myMatch);
-    }
-
-    public void dispatchToEntryProcessor(Entry entry) {
-        // TODO may be discard.
-    }
-
-
     public EntryProcessor dispatch(Entry entry) {
-                return ep;
+        return epManager.dispatch(entry);
     }
 
     public void process() {
@@ -57,7 +52,6 @@ class ProcessChain {
 
             EntryProcessor ep = dispatch(entry);
 
-            System.out.println("Start ep.recvNewEntry(" + entry + ")");
             ep.receiveNewEntry(entry);
             //Result result = ep.generateResult();
             //reusltQueue.add(result);

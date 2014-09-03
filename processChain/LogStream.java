@@ -17,7 +17,7 @@ public class LogStream<T> {
         try {
             return queue.take();
         } catch (Exception ex) {
-            System.out.println("Exception on receiveNew. " + ex.getMessage());
+            System.out.println("Exception on next. " + ex.getMessage());
         }
         return null; // never here
     }
