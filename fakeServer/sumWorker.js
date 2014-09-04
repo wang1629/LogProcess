@@ -14,9 +14,9 @@ var SQRT_WORKER_PORT = 4444;
 var reqID = 1;
 
 function doProcessRequest(m, n, reqId) {
-    pms.perfLog('Start', 'doProcessRequest', reqId);
+    pms.perfLog('Start', 'doSum', reqId);
     var res = m*m + n*n;
-    pms.perfLog('Start', 'doProcessRequest', reqId);
+    pms.perfLog('End', 'doSum', reqId);
     return res;
 }
 
@@ -44,7 +44,7 @@ function processRequests(data) {
         reply = reply + prefix + ':' + result + ';';
         pms.perfLog('End', 'processRequest', reqId);
     }
-    pms.perfLog('Start', 'processRequests');
+    pms.perfLog('End', 'processRequests');
     return reply;
 }
 

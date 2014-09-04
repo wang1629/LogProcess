@@ -14,6 +14,9 @@ public class EntryProcessorManager<F> {
         this.groupBy = groupBy;
     }
 
+    public F getKeyById(Integer id) {
+        return idMap.get(id);
+    }
     public boolean check() {
         if(groupBy == null) {
             System.out.println("You should set gourpBy before use EntryProcessorManager");

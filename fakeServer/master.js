@@ -112,7 +112,7 @@ function parseSqrtResult(data) {
 
 var requestDataTail = '';
 function parseRequest(clientId, data) {
-    pms.perfLog('Start', 'parseResult');
+    pms.perfLog('Start', 'parseRequest');
     var str = requestDataTail + data;
     var length = str.length;
     var lastIndex = str.lastIndexOf(';');
@@ -124,11 +124,11 @@ function parseRequest(clientId, data) {
     for(var i=0; i<requests.length; i++) {
         var requestId = requestUid;
         requestUid++;
-        pms.perfLog('Start', 'parseResult' + i, requestId);
+        pms.perfLog('Start', 'parseRequest' + i, requestId);
         var forwardRequest = '' + clientId + ',' + requestId + ':' + requests[i] + ';';
         console.log('Forword to SumWorker: ' + forwardRequest);
         toSumWorker.write(forwardRequest);
-        pms.perfLog('End', 'parseResult' + i, requestId);
+        pms.perfLog('End', 'parseRequest' + i, requestId);
     }
     pms.perfLog('End', 'parseResult');
 };

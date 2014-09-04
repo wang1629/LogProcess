@@ -24,6 +24,12 @@ exports.setOutput = function(outValue) {
     output = outValue;
 };
 
+exports.busyWaiting = function() {
+    var time = Math.floor(((Math.random()*10)+1));
+    console.log('BUSY WAITING ' + time);
+}
+
+
 exports.perfLog = function(trace, counter, reqId, jobId, cpu, network) {
 
     if(!initialized) {
@@ -38,13 +44,22 @@ exports.perfLog = function(trace, counter, reqId, jobId, cpu, network) {
     var processId = process.pid;
     entry.hostname = hostname;
     entry.processId = processId;
-    entry.time = timestamp();
     entry.trace = trace;
     entry.counter = counter;
     entry.reqId = reqId;
     entry.jobId = jobId;
     entry.CPU = cpu;
     entry.network = network;
+    {
+        var time = Math.floor(((Math.random()*10))) + 1;
+        var s=0;
+        for(var i=0; i<time; i++) {
+            for(var j=0; j<1000000; j++) {
+                s = s + j;
+            }
+        }
+    }
+    entry.time = timestamp();
     var line = 'PERFLOG ' + JSON.stringify(entry) + '\n';
     if(output === 'stdout') {
         console.log(line);

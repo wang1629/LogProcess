@@ -19,12 +19,8 @@ function sendRequest() {
 }
 
 function sendRequest1() {
-    var str = '1,2;3,4;5,';
+    var str = '3,4;5,12;6,8;';
     client.write(str);
-    setTimeout( function() {
-        var str = '6;7,8;';
-        client.write(str);
-    }, 1000);
 }
 
 client.connect(PORT, HOST, function() {

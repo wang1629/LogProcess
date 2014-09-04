@@ -14,8 +14,10 @@ var SQRT_WORKER_PORT = 4444;
 var reqID = 1;
 
 function doProcessRequest(square) {
-    return Math.sqrt(square);
-//    return (-1)*square;
+    pms.perfLog('Start', 'doSqrt');
+    var sqrtRes = Math.sqrt(square);
+    pms.perfLog('End', 'doSqrt');
+    return sqrtRes;
 }
 
 
@@ -34,7 +36,7 @@ function processRequests(data) {
     for(var i=0; i<sqrtRequests.length; i++) {
         var request = sqrtRequests[i];
         var prefix = request.substr(0, request.indexOf(':')+1);
-        var reqId = prefix.split(',')[0];
+        var reqId = prefix.split(',')[1];
         pms.perfLog('Start', 'processRequests', reqId);
         var numPair = request.substr(request.indexOf(':')+1);
         var square = parseInt(numPair);
@@ -50,7 +52,7 @@ function processRequests(data) {
 
 net.createServer( function(sock) {
 
-		console.log('SumWorker Recv New Connection: ' + sock.remoteAddress + ':' + sock.remotePort);
+		console.log('SqrtWorker Recv New Connection: ' + sock.remoteAddress + ':' + sock.remotePort);
 
 		sock.on('data', function(data) {
 			console.log('Recv data from Client (' + sock.remoteAddress + ':' + sock.remotePort + ') = ' + data);
@@ -61,6 +63,6 @@ net.createServer( function(sock) {
 
 }).listen(SQRT_WORKER_PORT, HOST);
 
-console.log('SumWorker Server listening on ' + HOST + ':' + SQRT_WORKER_PORT);
+console.log('SqrtWorker Server listening on ' + HOST + ':' + SQRT_WORKER_PORT);
 
 

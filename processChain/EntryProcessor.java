@@ -46,6 +46,7 @@ public class EntryProcessor {
         return matchFunction.match(e1, e2);
     }
 
+    /* Key Function, user can override this function to generate more informative StepResult(that means user should inherite class StepResult  */
     public StepResult generateStepResult(Entry e1, Entry e2) {
         StepResult step = new StepResult();
         Entry start, end;
@@ -76,7 +77,7 @@ public class EntryProcessor {
         }
 
         StepResult step = generateStepResult(entry, matchEntry);
-        System.out.println("******************************************************(" + (++resCount) + ")***** Generate Step Result " + step);
+        //System.out.println("********************************************** ep[id=" + this.id + "] ********(" + (++resCount) + ")***** Generate Step Result " + step);
         return step;
     }
 

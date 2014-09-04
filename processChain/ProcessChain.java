@@ -53,6 +53,9 @@ class ProcessChain {
         return epManager.check();
     }
 
+    int filterCount = 0;
+    int filterCountKeep = 0;
+
     public void process() {
 
         if(!check())
@@ -61,20 +64,27 @@ class ProcessChain {
         while(true) {
             //System.out.println("logStream.next()");
             Entry entry = logStream.next();
-            System.out.println("logStream.next() return " + entry);
+            //System.out.println("logStream.next() return " + entry);
             boolean discard = filterChain.apply(entry);
-            //System.out.println("after filterChain " + discard);
+            //System.out.println("filterChain should discard(" + discard + ")[" + (++filterCount) + "," + filterCountKeep + "]");
             if(discard) {
                 continue;
             }
+            filterCountKeep++;
 
             EntryProcessor ep = dispatch(entry);
 
-            System.out.println("dispatch return ep[" + ep.id + "] for entry" + entry);
+            //System.out.println("dispatch return ep[" + ep.id + "] for entry" + entry);
 
             ep.setMatchFunction(matchFunction);
 
-            ep.receiveNewEntry(entry);
+            StepResult stepRes = ep.receiveNewEntry(entry);
+            if(stepRes != null) {
+
+                //System.out.println("********************* ep[" + epManager.getKeyById(ep.id) + "] ************* Generate Step Result " + stepRes);
+                System.out.println("ep[" + epManager.getKeyById(ep.id) + "] Generate Step Result <" + stepRes + ">");
+            }
+
             //Result result = ep.generateResult();
             //reusltQueue.add(result);
 
