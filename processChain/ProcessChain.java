@@ -80,17 +80,14 @@ class ProcessChain {
 
             StepResult stepRes = ep.receiveNewEntry(entry);
             if(stepRes != null) {
-
                 //System.out.println("********************* ep[" + epManager.getKeyById(ep.id) + "] ************* Generate Step Result " + stepRes);
                 System.out.println("ep[" + epManager.getKeyById(ep.id) + "] Generate Step Result <" + stepRes + ">");
+                //ResultQueue.addNewStepResult(stepRes);
+                {
+                    String line = "{\"reqId\":" + epManager.getKeyById(ep.id) + ",\"Counter\":\"" + stepRes.counter + "\",\"startTime\":" + stepRes.startTime + ",\"endTime\":" + stepRes.endTime + "},";
+                    //ResultQueue.appendToFile(line);
+                }
             }
-
-            //Result result = ep.generateResult();
-            //reusltQueue.add(result);
-
         }
-
     }
-
-
 }

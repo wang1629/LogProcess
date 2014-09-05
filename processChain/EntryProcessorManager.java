@@ -31,7 +31,7 @@ public class EntryProcessorManager<F> {
             if(epMap.containsKey(field)) {
                 return epMap.get(field);
             }
-            EntryProcessor ep = new EntryProcessor();
+            EntryProcessor ep = new EntryProcessor(field.toString());
             epMap.put(field, ep);
             ep.id = sequenceNuber++;
             idMap.put(ep.id, field);

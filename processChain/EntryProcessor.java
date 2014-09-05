@@ -35,8 +35,16 @@ public class EntryProcessor {
     private LinkedList<HierarchyStepResult> topHierarchyStepResult;
     private Cache<Entry> cache = new Cache<Entry>();
     private MatchFunction<Entry> matchFunction;
+    private String keyString;
 
     public int id; // for test
+
+    public ResultQueue  resQueue ;
+
+    public EntryProcessor(String keyString) {
+        this.keyString = keyString;
+        resQueue = new ResultQueue(keyString);
+    }
 
     public void setMatchFunction(MatchFunction<Entry> matchFunction) {
         this.matchFunction = matchFunction;
@@ -76,9 +84,12 @@ public class EntryProcessor {
             return null;
         }
 
-        StepResult step = generateStepResult(entry, matchEntry);
+        StepResult stepRes = generateStepResult(entry, matchEntry);
+
+        resQueue.addNewStepResult(stepRes);
+
         //System.out.println("********************************************** ep[id=" + this.id + "] ********(" + (++resCount) + ")***** Generate Step Result " + step);
-        return step;
+        return stepRes;
     }
 
 }

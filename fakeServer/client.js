@@ -40,4 +40,4 @@ client.on('data', function(data) {
         parseResult(data);
 });
 
-setTimeout( function() { client.destroy(); } , 20000);
+setTimeout( function() { client.destroy(); } , 2000);
