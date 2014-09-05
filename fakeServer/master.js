@@ -124,13 +124,13 @@ function parseRequest(clientId, data) {
     for(var i=0; i<requests.length; i++) {
         var requestId = requestUid;
         requestUid++;
-        pms.perfLog('Start', 'parseRequest' + i, requestId);
+        pms.perfLog('Start', 'parseRequest', requestId);
         var forwardRequest = '' + clientId + ',' + requestId + ':' + requests[i] + ';';
         console.log('Forword to SumWorker: ' + forwardRequest);
         toSumWorker.write(forwardRequest);
-        pms.perfLog('End', 'parseRequest' + i, requestId);
+        pms.perfLog('End', 'parseRequest', requestId);
     }
-    pms.perfLog('End', 'parseResult');
+    pms.perfLog('End', 'parseRequest');
 };
 
 emitter.on('client-data', function(clientId, data) {
