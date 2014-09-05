@@ -2,17 +2,18 @@
 public class TestProcessChain {
 
     static LogStream<Entry> logStream = new LogStream<Entry>();;
-    static String masterLogPath = "/home/wang/work/LPS/LogProcess/fakeServer/res/master.log";
-    static String sumWorkerLogPath = "/home/wang/work/LPS/LogProcess/fakeServer/res/sumWorker.log";
-    static  String sqrtWorkerLogPath = "/home/wang/work/LPS/LogProcess/fakeServer/res/sqrtWorker.log";
+    static String pathPrefix = "/home/wang/work/pms/LogProcess/fakeServer/res/";
+    static String masterLogPath = "master.log";
+    static String sumWorkerLogPath = "sumWorker.log";
+    static String sqrtWorkerLogPath = "sqrtWorker.log";
 
     public static void main(String args[]) {
 
-        FeedThread masterFeeder = new FakeLogFeedThreadTailf(logStream, masterLogPath);
+        FeedThread masterFeeder = new FakeLogFeedThreadTailf(logStream, pathPrefix + masterLogPath);
         masterFeeder.start();
-        FeedThread sumworkerFeeder = new FakeLogFeedThreadTailf(logStream, sumWorkerLogPath);
+        FeedThread sumworkerFeeder = new FakeLogFeedThreadTailf(logStream, pathPrefix + sumWorkerLogPath);
         sumworkerFeeder.start();
-        FeedThread sqrtworkerFeeder = new FakeLogFeedThreadTailf(logStream, sqrtWorkerLogPath);
+        FeedThread sqrtworkerFeeder = new FakeLogFeedThreadTailf(logStream, pathPrefix + sqrtWorkerLogPath);
         sqrtworkerFeeder.start();
 
         ProcessChain pc = new ProcessChain();

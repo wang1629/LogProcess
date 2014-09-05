@@ -7,8 +7,9 @@ app.get('/', function(req, res){
     res.send('Index Page !');
 });
 
+
 app.get('/chart', function(req, res){
-    var filePath = '/home/wang/work/LPS/LogProcess/display/testBar.html';
+    var filePath = '/home/wang/work/pms/LogProcess/display/testBar.html';
     res.sendFile(filePath);
 });
 
@@ -17,7 +18,7 @@ app.get('/refresh', function(req, res){
 });
 
 function refresh(req, response) {
-    var filename = '/home/wang/work/LPS/LogProcess/processChain/class/result_file.txt';
+    var filename = "/home/wang/work/pms/LogProcess/processChain/class/result_file.txt";
     fs.readFile(filename,'UTF-8' , function(err, data) {
         if(err) {
             console.log('Open ' + filename + ' error');

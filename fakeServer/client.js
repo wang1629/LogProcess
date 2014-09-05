@@ -19,7 +19,7 @@ function sendRequest() {
 }
 
 function sendRequest1() {
-    var str = '3,4;5,12;6,8;';
+    var str = '3,4;';
     client.write(str);
 }
 

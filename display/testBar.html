@@ -75,6 +75,7 @@
                 var series = new Array();
                 var reqLimit = stepResults.length;
                 var stepLimit = stepResults[0].CounterInterval.length;
+                console.log('stepLimit = ' + stepLimit);
                 for(var stepIndex=0; stepIndex<stepLimit; stepIndex++){
                     var seriesItem = new Object();
                     seriesItem.name = stepResults[0].CounterInterval[stepIndex].Counter;
@@ -129,7 +130,7 @@
 
             function change() {
                 loadXMLDoc('refresh');
-                //window.setTimeout(change,10000);
+                window.setTimeout(change,10000);
             }
 
             function show() {
