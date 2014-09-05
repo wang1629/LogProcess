@@ -1,0 +1,7 @@
+
+201409051251:
+1.  FakeServerFeedThread should monitor fakeServer/res/*.log file and continue to read increamental data.
+    
+
+2.  HttpServer should monitor logProcess/class/result_file.txt and send to Firefox the increamental data.
+    Nodejs can call 'tail -f'
