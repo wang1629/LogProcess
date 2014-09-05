@@ -1,0 +1,65 @@
+<html>
+    <head>
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+        <script src="http://code.highcharts.com/highcharts.js"></script>
+        <script>
+            function Draw() {
+                $('#container').highcharts({
+                    chart: {
+                        type: 'bar'
+                    },
+                    title: {
+                        text: 'Fruit Consumption'
+                    },
+                    xAxis: {
+                        categories: ['Apples', 'Bananas', 'Oranges']
+                    },
+                    yAxis: {
+                        title: {
+                            text: 'Fruit eaten'
+                        }
+                    },
+                    series: [{
+                        name: 'Jane',
+                        data: [33, 22, 11]
+                        }, {
+                        name: 'John',
+                        data: [33, 22, 11]
+                    }]
+                });
+            }
+            function change() {
+                $('#container').highcharts({
+                    chart: {
+                        type: 'bar'
+                    },
+                    title: {
+                        text: 'Fruit Consumption'
+                    },
+                    xAxis: {
+                        categories: ['Apples', 'Bananas', 'Oranges']
+                    },
+                    yAxis: {
+                        title: {
+                            text: 'Fruit eaten'
+                        }
+                    },
+                    series: [{
+                        name: 'Jane',
+                        data: [11, 22, 33]
+                        }, {
+                        name: 'John',
+                        data: [11, 22, 33]
+                    }]
+                });
+            }
+            function show() {
+                Draw();   
+                window.setTimeout(change,5000);
+            }
+        </script>
+    </head>
+    <body onload="show()">
+        <div id="container" style="width:400px; height:400px;"></div>
+    </body>
+</html>

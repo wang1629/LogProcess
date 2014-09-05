@@ -1,0 +1,146 @@
+
+<html>
+    <head>
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+        <script src="http://code.highcharts.com/highcharts.js"></script>
+        <script type="text/javascript">
+
+            
+            var showOption = {
+                chart: {
+                    type: 'bar'
+                },
+                title: {
+                    text: 'Stacked bar chart'
+                },
+                xAxis: {
+                    categories: ['Apples', 'Oranges', 'Pears', 'Grapes', 'Bananas']
+                },
+                yAxis: {
+                    min: 0,
+                    title: {
+                        text: 'Total fruit consumption'
+                    }
+                },
+                legend: {
+                    reversed: true
+                },
+                plotOptions: {
+                    series: {
+                        stacking: 'normal'
+                    }
+                },
+                series: [{
+                    name: 'John_Step_1',
+                    data: [10, 3, 4, 7, 2]
+                    }, {
+                    name: 'Jane_Step_2',
+                    data: [2, 2, 3, 2, 1]
+                    }, {
+                    name: 'Joe_Step_3',
+                    data: [3, 4, 4, 2, 5]
+                }]
+            };
+
+
+            var xmlhttp;
+            function loadXMLDoc(url) {
+                xmlhttp=null;
+                if (window.XMLHttpRequest) {
+                    // code for IE7, Firefox, Opera, etc.
+                    xmlhttp=new XMLHttpRequest();
+                    } else if (window.ActiveXObject) {
+                    // code for IE6, IE5
+                    xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+                }
+                if (xmlhttp!=null) {
+                    xmlhttp.onreadystatechange=stateChange;
+                    xmlhttp.open("GET",url,true);
+                    xmlhttp.send(null);
+                    } else {
+                    alert("Your browser does not support XMLHTTP.");
+                }
+            }
+
+
+            function buildCategory(stepResults) {
+                var category = new Array();
+                for(var i=0; i<stepResults.length; i++) {
+                    category.push(stepResults[i].keyString);
+                }
+                return category;
+            }
+
+            function buildSeries(stepResults) {
+                var series = new Array();
+                var reqLimit = stepResults.length;
+                var stepLimit = stepResults[0].CounterInterval.length;
+                for(var stepIndex=0; stepIndex<stepLimit; stepIndex++){
+                    var seriesItem = new Object();
+                    seriesItem.name = stepResults[0].CounterInterval[stepIndex].Counter;
+                    seriesItem.data = new Array();
+                    console.log('step name = ' + seriesItem.name);
+                    for(var reqIndex=0; reqIndex<reqLimit; reqIndex++) {
+                        seriesItem.data.push(stepResults[reqIndex].CounterInterval[stepIndex].Interval);
+                    }
+                    series.push(seriesItem);
+                }
+                return series;
+            }
+
+            function rebuildShowOption(data) {
+                //alert('Rebuild');
+                var showData = JSON.parse(data);
+                var stepResults = showData.DATA;
+                var reqResArray = new Object();
+                var notExist = 0, exist = 0;
+
+
+                showOption.title.text = 'Just a demo for Performance Monitor';
+
+                showOption.xAxis.categories = buildCategory(stepResults);
+                console.log(showOption.xAxis.categories);
+                console.log('-----------------------------------');
+
+                showOption.series = buildSeries(stepResults);
+                console.log(showOption.series);
+
+                Draw();
+            }
+
+            function stateChange() {
+                if (xmlhttp.readyState==4) {
+                    // 4 = "loaded"
+                    if (xmlhttp.status==200) {
+                        var data = xmlhttp.responseText;
+                        console.log('receive refresh data\n\n' + data);
+                        rebuildShowOption(data);
+                    } else {
+                        alert("Problem retrieving XML data:" + xmlhttp.statusText);
+                    }
+                }
+            }
+           
+            function Draw() {
+                $(function () {
+                    $('#container').highcharts( showOption );
+                });
+            }
+
+            function change() {
+                loadXMLDoc('refresh');
+                //window.setTimeout(change,10000);
+            }
+
+            function show() {
+                Draw();  
+                window.setTimeout(change,2000);
+            }
+        </script>
+    </head>
+    <body onload="show()">
+        <div id="container" style="width:50%; height:400px;">
+            Here is the chart !
+        </div>
+    </body>
+</html>

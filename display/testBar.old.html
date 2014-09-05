@@ -1,0 +1,122 @@
+
+<html>
+    <head>
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+        <script src="http://code.highcharts.com/highcharts.js"></script>
+        <script>
+
+            var xmlhttp;
+            function loadXMLDoc(url) {
+                xmlhttp=null;
+                if (window.XMLHttpRequest) {
+                    // code for IE7, Firefox, Opera, etc.
+                    xmlhttp=new XMLHttpRequest();
+                    } else if (window.ActiveXObject) {
+                    // code for IE6, IE5
+                    xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+                }
+                if (xmlhttp!=null) {
+                    xmlhttp.onreadystatechange=stateChange;
+                    xmlhttp.open("GET",url,true);
+                    xmlhttp.send(null);
+                    } else {
+                    alert("Your browser does not support XMLHTTP.");
+                }
+            }
+
+            var showOption = {
+                chart: {
+                    type: 'bar'
+                },
+                title: {
+                    text: 'Stacked bar chart'
+                },
+                xAxis: {
+                    categories: ['Apples', 'Oranges', 'Pears', 'Grapes', 'Bananas']
+                },
+                yAxis: {
+                    min: 0,
+                    title: {
+                        text: 'Total fruit consumption'
+                    }
+                },
+                legend: {
+                    reversed: true
+                },
+                plotOptions: {
+                    series: {
+                        stacking: 'normal'
+                    }
+                },
+                series: [{
+                    name: 'John',
+                    data: [5, 3, 4, 7, 2]
+                    }, {
+                    name: 'Jane',
+                    data: [2, 2, 3, 2, 1]
+                    }, {
+                    name: 'Joe',
+                    data: [3, 4, 4, 2, 5]
+                }]
+            };
+
+            function rebuildShowOption(data) {
+                alert('Rebuild');
+                var showData = JSON.parse(data);
+                var stepResules = showData.StepResult;
+
+                var requestArray = {};
+
+                for(var i=0; i<stepResules.length; i++) {
+                }
+                for(var i=0; i<3; i++) {
+                    var result = stepResules[i];
+                    alert('curr result = \n' + result);
+                    if(requestArray[result.reqId]) {
+                        aler('exist');
+                        } else {
+                        rr = new Object();
+                        rr.counter = { result.Counter };
+                        rr.interval = { result.endTime-result.startTime }
+                        requestArray[result.reqId] = rr;
+                    }
+                }
+
+            }
+
+            function stateChange() {
+                if (xmlhttp.readyState==4) {
+                    // 4 = "loaded"
+                    if (xmlhttp.status==200) {
+                        var data = xmlhttp.responseText;
+                        rebuildShowOption(data);
+                    } else {
+                        alert("Problem retrieving XML data:" + xmlhttp.statusText);
+                    }
+                }
+            }
+
+            function Draw() {
+                $(function () {
+                    $('#container').highcharts( showOption );
+                });
+            }
+
+            function show() {
+                alert('show');
+                Draw();   
+                loadXMLDoc('refresh');
+            }
+
+            function show1() {
+                Draw();   
+                window.setTimeout(change,2000);
+            }
+        </script>
+    </head>
+    <body onload="show()">
+        <div id="container" style="width:400px; height:400px;">
+            Here is the chart !
+        </div>
+    </body>
+</html>
