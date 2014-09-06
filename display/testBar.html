@@ -66,7 +66,7 @@
             function buildCategory(stepResults) {
                 var category = new Array();
                 for(var i=0; i<stepResults.length; i++) {
-                    category.push(stepResults[i].keyString);
+                    category.push('Request ' + stepResults[i].keyString);
                 }
                 return category;
             }
@@ -140,7 +140,7 @@
         </script>
     </head>
     <body onload="show()">
-        <div id="container" style="width:50%; height:400px;">
+        <div id="container" style="width:100%; height:100%;">
             Here is the chart !
         </div>
     </body>
