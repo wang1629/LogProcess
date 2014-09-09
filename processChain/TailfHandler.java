@@ -7,6 +7,9 @@ public class TailfHandler implements ShellOutputHandler  {
     }
     public void handle(String line) {
         Entry entry = new Entry(line);
+        if(!entry.validate) {
+            return;
+        }
         logStream.receiveNew(entry);
     }
 }

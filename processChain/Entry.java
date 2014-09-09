@@ -6,6 +6,8 @@ public class Entry {
     private int traceFlag;
     private String requestID = "";
 
+    public boolean validate = true;
+
 
     public String prefixTag;
     public String hostname;
@@ -18,14 +20,16 @@ public class Entry {
 
     public Entry() { }
     public Entry(String entryLine) {
-        parseFrom(entryLine);
+        validate = parseFrom(entryLine);
     }
 
     static int count = 0;
 
-    public void parseFrom(String entryLine) {
+    public boolean parseFrom(String entryLine) {
 
         String str[] = entryLine.split(" ");
+        if(str.length <= 1)
+            return false;
         prefixTag = str[0].trim();
         String es = str[1];
         es = es.replace("\"", "");
@@ -62,6 +66,7 @@ public class Entry {
 
         count++;
         //System.out.println("(" + count + ")parseFrom return = " + this);
+        return true;
         
     }
 
