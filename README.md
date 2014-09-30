@@ -35,5 +35,5 @@ The result will display in the web page using an existing JavaScript framework n
 
 Open browser page, the page will periodically fetch new result item to display.
 
-![image](https://github.com/wang1629/LogProcess/blob/master/images/display.png)
+![image](https://github.com/wang1629/LogProcess/blob/master/images/display.jpg)
 
