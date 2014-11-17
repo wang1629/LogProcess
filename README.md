@@ -37,3 +37,7 @@ Open browser page, the page will periodically fetch new result item to display.
 
 ![image](https://github.com/wang1629/LogProcess/blob/master/images/display.jpg)
 
+
+## Example
+### See https://github.com/wang1629/LogProcess/blob/master/processChain/TestProcessChain.java  for more information.
+
