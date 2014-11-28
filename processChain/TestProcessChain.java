@@ -48,18 +48,13 @@ class MyGroupBy implements GroupBy<Entry, String> {
 
 class MyMatch implements MatchFunction<Entry> {
     public boolean match(Entry e1, Entry e2) {
-        //if(e1.getCounter().equals("processRequest")) {
-        //System.out.println("Match(" + e1 + "," + e2);
-        //}
-        //System.out.println("Match stepinto (" + e1.getCounter() + "," + e2.getCounter());
         if(!(e1.getCounter().equals(e2.getCounter()))) {
-            //System.out.println("Match counter not equal(" + e1.getCounter() + "," + e2.getCounter());
             return false;
         }
-        //System.out.println("Match reqID(" + e1.getRequestID() + "," + e2.getRequestID());
+        
         if(!(e1.getRequestID()).equals(e2.getRequestID())) 
             return false;
-        //System.out.println("Match traceflag(" + e1.getTraceFlag() + "," + e2.getTraceFlag());
+        
         if(e1.getTraceFlag() + e2.getTraceFlag() == 3) /* bad. magic number */
             return true;
         return false;
